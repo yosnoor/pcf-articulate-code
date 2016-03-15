@@ -1,5 +1,9 @@
 package io.pivotal.enablement.articulate.controller;
 
+import io.pivotal.enablement.articulate.model.Attendee;
+import io.pivotal.enablement.articulate.service.AttendeeService;
+import io.pivotal.enablement.articulate.service.EnvironmentHelper;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -12,24 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.pivotal.enablement.articulate.client.model.Attendee;
-import io.pivotal.enablement.articulate.service.AttendeeService;
-import io.pivotal.enablement.articulate.service.EnvironmentHelper;
-
 /**
- * AttendeeController
- * 
- * This is the MVC controller for the application. All UI HTTP requests get
- * here. We're using Thymeleaf as the template engine.
- * 
  * 
  * @author mborges
  *
  */
 @Controller
-public class AttendeeController {
+public class ArticulateController {
 
-	private Log log = LogFactory.getLog(AttendeeController.class);
+	private Log log = LogFactory.getLog(ArticulateController.class);
 
 	@Autowired
 	private AttendeeService attendeeService;
@@ -37,28 +32,12 @@ public class AttendeeController {
 	@Autowired
 	private EnvironmentHelper environmentHelper;
 
-	/**
-	 * INDEX
-	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("/")
 	public String index(Model model) throws Exception {
 		addAppEnv(model);
 		return "index";
 	}
 
-	/**
-	 * BASICS
-	 * 
-	 * Action to initiate shutdown of the system. In CF, the application
-	 * <em>should</em> restart. In other environments, the application runtime
-	 * will be shut down.
-	 * 
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "/basics", method = RequestMethod.GET)
 	public String kill(@RequestParam(value = "doit", required = false) boolean doit, Model model) throws Exception {
 
@@ -85,13 +64,6 @@ public class AttendeeController {
 
 	}
 
-	/**
-	 * SERVICES
-	 * 
-	 * @param model
-	 *            The model for this action.
-	 * @return The path to the view.
-	 */
 	@RequestMapping(value = "/services", method = RequestMethod.GET)
 	public String attendees(Model model) throws Exception {
 
@@ -101,23 +73,6 @@ public class AttendeeController {
 		return "services";
 	}
 
-	/**
-	 * SERVICES - Add Attendee
-	 * 
-	 * NOTE: this method chains (calls) the "attendees" method so it returns the
-	 * services template with the updated attendees list.
-	 * 
-	 * TODO:
-	 * - Turn this this into REST call
-	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param emailAddress
-	 * @param model
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "/add-attendee", method = RequestMethod.POST)
 	public String addAttendee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
 			@RequestParam("emailAddress") String emailAddress, Model model) throws Exception {
@@ -134,13 +89,6 @@ public class AttendeeController {
 		return "services";
 	}
 
-	/**
-	 * BLUEGREEN
-	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("/bluegreen")
 	public String bluegreen(Model model) throws Exception {
 
@@ -153,9 +101,6 @@ public class AttendeeController {
 		return "bluegreen";
 	}
 
-	///////////////////////////////////////
-	// Helper Methods
-	///////////////////////////////////////
 
 	private void addAppEnv(Model model) throws Exception {
 

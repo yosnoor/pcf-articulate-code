@@ -10,16 +10,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import io.pivotal.enablement.articulate.PcfErsDemo1Application;
-import io.pivotal.enablement.articulate.repo.AttendeeRepository;
-import io.pivotal.enablement.articulate.server.model.Attendee;
+import io.pivotal.enablement.articulate.ArticulateApplication;
+import io.pivotal.enablement.articulate.model.Attendee;
+import io.pivotal.enablement.articulate.repository.AttendeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = PcfErsDemo1Application.class)
+@SpringApplicationConfiguration(classes = ArticulateApplication.class)
 @WebAppConfiguration
 public class PcfErsDemo1ApplicationTests {
 	
