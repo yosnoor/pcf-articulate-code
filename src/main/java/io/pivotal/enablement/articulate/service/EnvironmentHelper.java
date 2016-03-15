@@ -3,6 +3,8 @@ package io.pivotal.enablement.articulate.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,17 +24,24 @@ public class EnvironmentHelper {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> addAppEnv() throws Exception {
+	public Map<String, Object> addAppEnv(HttpServletRequest request) throws Exception {
 
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 
+		if(System.getenv("PORT")== null){
+			modelMap.put("containerAddr", "localhost");
+		}
+		else{
+			modelMap.put("containerAddr", request.getLocalAddr() + ":" + request.getLocalPort());
+		}
+		
 		String instanceIndex = getVcapApplicationMap().getOrDefault("instance_index", "no index environment variable")
 				.toString();
 		modelMap.put("instanceIndex", instanceIndex);
 
 		String instanceAddr = System.getenv("CF_INSTANCE_ADDR");
 		if (instanceAddr == null) {
-			instanceAddr = "running locally";
+			instanceAddr = "localhost";
 		}
 		modelMap.put("instanceAddr", instanceAddr);
 

@@ -1,22 +1,15 @@
 
 <p>
-	Welcome to the Sample Pivotal Cloud Foundry. If you're here it means
-	you successfully deploy the application. <a
-		href="http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html"
-		target="_blank">Learn more.</a>
+	If you're here it means
+	you successfully deployed the application.
 </p>
 <p>
-	To get here we simply used the CF CLI PUSH command to deploy your
-	application or artifact. We often use a manifest yaml file to
-	encapsulate the command option. The application binaries and metadata
-	are upload, an application is created along with a route and associated
-	with your artifact and metadata<a
-		href="http://docs.pivotal.io/pivotalcf/concepts/how-applications-are-staged.html"
-		target="_blank">&nbsp;Learn more.</a>
+	To get here we simply used the <code>cf push</code> command to deploy the
+	application.
 </p>
-<p>PCF Elastic Runtime run applications in containers and part of
-	the PCF staging process is to create an application container image
-	called droplet.</p>
+<p>The Elastic Runtime runs applications by packaging the application and required runtime support into a <a href="https://docs.pivotal.io/pivotalcf/concepts/glossary.html" target="_blank"> droplet</a>.  Droplets are run inside containers.<a
+		href="http://docs.pivotal.io/pivotalcf/concepts/how-applications-are-staged.html"
+		target="_blank">&nbsp;Learn more about how applications are staged.</a></p>
 
 <div class="alert alert-success" role="alert">
 	<b>Note:</b> PCF also supports running applications from a docker
@@ -27,10 +20,3 @@
 <img src="/images/index1.png"
 	class="img-rounded img-responsive center-block" alt="Cinque Terre"
 	width="600" height="200">
-
-
-
-
-
-
-

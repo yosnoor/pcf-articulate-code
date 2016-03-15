@@ -7,6 +7,8 @@ import io.pivotal.enablement.articulate.service.EnvironmentHelper;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +35,15 @@ public class ArticulateController {
 	private EnvironmentHelper environmentHelper;
 
 	@RequestMapping("/")
-	public String index(Model model) throws Exception {
-		addAppEnv(model);
+	public String index(HttpServletRequest request, Model model) throws Exception {
+		addAppEnv(request,model);
 		return "index";
 	}
 
 	@RequestMapping(value = "/basics", method = RequestMethod.GET)
-	public String kill(@RequestParam(value = "doit", required = false) boolean doit, Model model) throws Exception {
+	public String kill(HttpServletRequest request,@RequestParam(value = "doit", required = false) boolean doit, Model model) throws Exception {
 
-		addAppEnv(model);
+		addAppEnv(request, model);
 
 		if (doit) {
 			model.addAttribute("killed", true);
@@ -65,16 +67,16 @@ public class ArticulateController {
 	}
 
 	@RequestMapping(value = "/services", method = RequestMethod.GET)
-	public String attendees(Model model) throws Exception {
+	public String attendees(HttpServletRequest request,Model model) throws Exception {
 
 		model.addAttribute("attendees", attendeeService.getAttendees());
 		
-		addAppEnv(model);
+		addAppEnv(request,model);
 		return "services";
 	}
 
 	@RequestMapping(value = "/add-attendee", method = RequestMethod.POST)
-	public String addAttendee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+	public String addAttendee(HttpServletRequest request,@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
 			@RequestParam("emailAddress") String emailAddress, Model model) throws Exception {
 
 		Attendee attendee = new Attendee();
@@ -85,26 +87,26 @@ public class ArticulateController {
 		attendeeService.add(attendee);
 		model.addAttribute("attendees", attendeeService.getAttendees());
 
-		addAppEnv(model);
+		addAppEnv(request, model);
 		return "services";
 	}
 
 	@RequestMapping("/bluegreen")
-	public String bluegreen(Model model) throws Exception {
+	public String bluegreen(HttpServletRequest request,Model model) throws Exception {
 
 		for (String key : System.getenv().keySet()) {
 			System.out.println(key + ":" + System.getenv(key));
 		}
 
-		addAppEnv(model);
+		addAppEnv(request, model);
 
 		return "bluegreen";
 	}
 
 
-	private void addAppEnv(Model model) throws Exception {
+	private void addAppEnv(HttpServletRequest request, Model model) throws Exception {
 
-		Map<String, Object> modelMap = environmentHelper.addAppEnv();
+		Map<String, Object> modelMap = environmentHelper.addAppEnv(request);
 		model.addAllAttributes(modelMap);
 	}
 

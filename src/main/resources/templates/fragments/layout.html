@@ -1,9 +1,9 @@
 <!--
-This page contains thymeleaf fragments used by all pages in the application 
+This page contains thymeleaf fragments used by all pages in the application
 
 References:
 - http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-grid-system.php
- 
+
 -->
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -92,18 +92,18 @@ References:
 				<a class="navbar-brand" href="./"><img
 					src="/images/icon_cf_green.png"
 					style="width: 40px; height: 40px; margin-top: -15px;" />&nbsp;
-					Cloud Foundry Basic Demo</a>
+					Articulate</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="basics">Basics</a></li>
+					<li><a href="basics">Logging, Scale and HA</a></li>
 					<li><a href="services">Services</a></li>
 					<li><a href="bluegreen">Blue Green</a></li>
 
 					<li class="dropdown"><a data-toggle="dropdown"
-						class="dropdown-toggle" href="#">SpringBoot <b class="caret"></b></a>
+						class="dropdown-toggle" href="#">Spring Boot <b class="caret"></b></a>
 						<ul role="menu" class="dropdown-menu">
 							<li><a href="info">Build Info</a></li>
 							<li><a href="env">Show Environment</a></li>
@@ -140,7 +140,10 @@ References:
 							The instance index is <b id="instanceIndex" th:text="${instanceIndex}"></b>
 						</p>
 						<p>
-							The instance address is <b id="instanceAddress" th:text="${instanceAddr}"></b>
+							The cell address is <b id="instanceAddress" th:text="${instanceAddr}"></b>
+						</p>
+						<p>
+							The container address is <b id="containerAddr" th:text="${containerAddr}"></b>
 						</p>
 
 						<h4>Services</h4>
@@ -160,25 +163,12 @@ References:
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion"
-							href="#collapseOne">1. Description</a>
+							href="#collapseOne">Description</a>
 					</h4>
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse">
 					<div id="description" class="panel-body">
 						<p>DESCRIPTION NOT AVAILABLE</p>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion"
-							href="#collapseTwo">2. Demonstrations</a>
-					</h4>
-				</div>
-				<div id="collapseTwo" class="panel-collapse collapse">
-					<div id="demonstration" class="panel-body">
-						<p>DEMONSTRATION NOT AVAILABLE</p>
 					</div>
 				</div>
 			</div>
