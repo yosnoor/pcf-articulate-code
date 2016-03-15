@@ -32,6 +32,9 @@ public class AttendeeController {
 	@Autowired
 	private AttendeeService attendeeService;
 
+	@Autowired
+	private EnvironmentHelper environmentHelper;
+
 	/**
 	 * INDEX
 	 * 
@@ -154,7 +157,7 @@ public class AttendeeController {
 
 	private void addAppEnv(Model model) throws Exception {
 
-		Map<String, Object> modelMap = attendeeService.addAppEnv();
+		Map<String, Object> modelMap = environmentHelper.addAppEnv();
 		model.addAllAttributes(modelMap);
 	}
 

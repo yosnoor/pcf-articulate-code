@@ -6,3 +6,4 @@
 build/
 .project
 .springBeans
+/.apt_generated/
