@@ -150,8 +150,7 @@ References:
 						<p th:if="${applicationServices.isEmpty()}">Using embedded H2
 							DB</p>
 						<p th:each="instance : ${applicationServices}">
-							<b><span th:text="${instance.key}">keyvalue</span></b> <span
-								th:text="${instance.value}">num</span> <br />
+							<span th:text="${instance.key}"></span> <br />
 						</p>
 
 						<div id="resultsBlock-health"></div>
