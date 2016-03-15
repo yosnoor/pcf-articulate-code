@@ -1,6 +1,6 @@
-package io.pivotal.pcf.sme.ers.server.repo;
+package io.pivotal.enablement.articulate.repo;
 
-import io.pivotal.pcf.sme.ers.server.model.Attendee;
+import io.pivotal.enablement.articulate.server.model.Attendee;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

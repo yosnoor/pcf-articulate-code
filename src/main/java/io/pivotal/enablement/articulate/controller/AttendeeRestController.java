@@ -1,4 +1,6 @@
-package io.pivotal.pcf.sme.ers.client.ui.controller;
+package io.pivotal.enablement.articulate.controller;
+
+import io.pivotal.enablement.articulate.service.EnvironmentHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

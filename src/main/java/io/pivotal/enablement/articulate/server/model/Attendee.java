@@ -1,4 +1,4 @@
-package io.pivotal.pcf.sme.ers.server.model;
+package io.pivotal.enablement.articulate.server.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

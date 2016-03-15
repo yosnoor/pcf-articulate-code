@@ -1,4 +1,4 @@
-package io.pivotal.pcf.sme.ers.client.ui.controller;
+package io.pivotal.enablement.articulate.controller;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.pivotal.pcf.sme.ers.client.model.Attendee;
+import io.pivotal.enablement.articulate.client.model.Attendee;
+import io.pivotal.enablement.articulate.service.AttendeeService;
+import io.pivotal.enablement.articulate.service.EnvironmentHelper;
 
 /**
  * AttendeeController

@@ -1,11 +1,11 @@
-package io.pivotal.pcf.sme.ers;
+package io.pivotal.enablement.articulate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import io.pivotal.pcf.sme.ers.server.repo.AttendeeRepository;
+import io.pivotal.enablement.articulate.repo.AttendeeRepository;
 
 @Component
 public class DummyDataCLR  implements CommandLineRunner {

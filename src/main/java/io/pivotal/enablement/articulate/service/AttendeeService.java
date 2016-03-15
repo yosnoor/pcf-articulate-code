@@ -1,7 +1,8 @@
-package io.pivotal.pcf.sme.ers.client.ui.controller;
+package io.pivotal.enablement.articulate.service;
 
-import io.pivotal.pcf.sme.ers.server.model.Attendee;
-import io.pivotal.pcf.sme.ers.server.repo.AttendeeRepository;
+import io.pivotal.enablement.articulate.controller.AttendeeController;
+import io.pivotal.enablement.articulate.repo.AttendeeRepository;
+import io.pivotal.enablement.articulate.server.model.Attendee;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class AttendeeService {
 	@Autowired
 	private AttendeeRepository attendeeRepository;
 	
-	void add(io.pivotal.pcf.sme.ers.client.model.Attendee a1) {
+	public void add(io.pivotal.enablement.articulate.client.model.Attendee a1) {
 		Attendee a2 = new Attendee();
 		a2.setFirstName(a1.getFirstName());
 		a2.setLastName(a1.getLastName());
@@ -48,7 +49,7 @@ public class AttendeeService {
 	}
 	
 	// returning server object
-	Iterable<Attendee> getAttendees() {
+	public Iterable<Attendee> getAttendees() {
 		return attendeeRepository.findAll();
 	}
 	

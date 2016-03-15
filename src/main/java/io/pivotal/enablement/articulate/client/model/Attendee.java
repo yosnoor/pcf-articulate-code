@@ -1,4 +1,4 @@
-package io.pivotal.pcf.sme.ers.client.model;
+package io.pivotal.enablement.articulate.client.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-package io.pivotal.pcf.sme.ers.client.ui.controller;
+package io.pivotal.enablement.articulate.service;
 
 import java.util.HashMap;
 import java.util.Map;

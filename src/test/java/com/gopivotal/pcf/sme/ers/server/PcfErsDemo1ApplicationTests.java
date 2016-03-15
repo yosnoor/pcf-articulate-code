@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import io.pivotal.pcf.sme.ers.PcfErsDemo1Application;
-import io.pivotal.pcf.sme.ers.server.model.Attendee;
-import io.pivotal.pcf.sme.ers.server.repo.AttendeeRepository;
+import io.pivotal.enablement.articulate.PcfErsDemo1Application;
+import io.pivotal.enablement.articulate.repo.AttendeeRepository;
+import io.pivotal.enablement.articulate.server.model.Attendee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
