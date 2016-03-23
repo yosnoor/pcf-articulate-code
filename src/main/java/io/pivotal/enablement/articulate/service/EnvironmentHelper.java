@@ -52,7 +52,18 @@ public class EnvironmentHelper {
 		@SuppressWarnings("rawtypes")
 		Map services = getVcapServicesMap();
 		modelMap.put("applicationServices", services);
+		
 
+		String javaVersion = System.getProperty("java.version");
+		logger.debug("Java Version (unfiltered): {}", javaVersion);
+		
+		int pos = javaVersion.indexOf("-");
+		if(pos > -1){
+			javaVersion = javaVersion.substring(0, pos);
+		}
+		logger.debug("Java Version (filtered): {}", javaVersion);
+		
+		modelMap.put("javaVersion",javaVersion);
 		return modelMap;
 	}
 

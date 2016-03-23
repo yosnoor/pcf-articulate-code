@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ArticulateController {
 
-	private Log log = LogFactory.getLog(ArticulateController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticulateController.class);
 
 	@Autowired
 	private AttendeeService attendeeService;
@@ -47,13 +47,13 @@ public class ArticulateController {
 
 		if (doit) {
 			model.addAttribute("killed", true);
-			log.warn("*** The system is shutting down. ***");
+			logger.warn("*** The system is shutting down. ***");
 			Runnable killTask = () -> {
 				try {
 					String name = Thread.currentThread().getName();
-					log.warn("killing shortly " + name);
+					logger.warn("killing shortly " + name);
 					TimeUnit.SECONDS.sleep(5);
-					log.warn("killed " + name);
+					logger.warn("killed " + name);
 					System.exit(0);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -107,6 +107,7 @@ public class ArticulateController {
 	private void addAppEnv(HttpServletRequest request, Model model) throws Exception {
 
 		Map<String, Object> modelMap = environmentHelper.addAppEnv(request);
+
 		model.addAllAttributes(modelMap);
 	}
 
