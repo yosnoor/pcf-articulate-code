@@ -70,6 +70,7 @@ public class ArticulateController {
 	public String attendees(HttpServletRequest request,Model model) throws Exception {
 
 		model.addAttribute("attendees", attendeeService.getAttendees());
+		model = clearAttendeeFormData(model);
 		
 		addAppEnv(request,model);
 		return "services";
@@ -83,12 +84,34 @@ public class ArticulateController {
 		attendee.setFirstName(firstName);
 		attendee.setLastName(lastName);
 		attendee.setEmailAddress(emailAddress);
-
-		attendeeService.add(attendee);
+		boolean addFailed = false;
+		try {
+			attendeeService.add(attendee);
+		}
+		catch(Exception e){
+			addFailed = true;
+		}
+		model.addAttribute("addFailed", addFailed);
+		if(addFailed){
+			model.addAttribute("firstName", firstName);
+			model.addAttribute("lastName", lastName);
+			model.addAttribute("emailAddress", emailAddress);
+		}
+		else{
+			model = clearAttendeeFormData(model);
+		}
 		model.addAttribute("attendees", attendeeService.getAttendees());
 
 		addAppEnv(request, model);
 		return "services";
+	}
+
+
+	private Model clearAttendeeFormData(Model model) {
+		model.addAttribute("firstName", "");
+		model.addAttribute("lastName", "");
+		model.addAttribute("emailAddress", "");
+		return model;
 	}
 
 	@RequestMapping("/bluegreen")

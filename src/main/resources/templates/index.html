@@ -19,7 +19,9 @@
 		</div>
 
 		<div class="row ">
-
+			<div th:if="${addFailed} == true">
+			Failed
+			</div>
 			<div class="col-md-6">
 				<p>The purpose of this application is to articulate some basic
 					concepts and capabilities of the Pivotal Cloud Foundry platform, specifically

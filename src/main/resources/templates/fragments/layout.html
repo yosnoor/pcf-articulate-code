@@ -147,8 +147,7 @@ ul {
 				</p>
 				<hr></hr>
 				<h4>Services</h4>
-				<span th:if="${applicationServices.isEmpty()}">Using embedded H2
-					DB</span>
+				<span th:if="${applicationServices.isEmpty()}">None</span>
 				<p th:each="instance : ${applicationServices}">
 					<span th:text="${instance.key}"></span> <br />
 				</p>
