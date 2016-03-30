@@ -50,8 +50,13 @@ public class AttendeeService {
 			for (ServiceInfo serviceInfo : serviceInfos) {
 				if (serviceInfo instanceof WebServiceInfo) {
 					WebServiceInfo webServiceInfo = (WebServiceInfo) serviceInfo;
-					logger.info("Setting attendee-service uri: {}", webServiceInfo.getUri() );
-					this.uri = webServiceInfo.getUri();
+					if (webServiceInfo.getUri().endsWith("/")){
+						this.uri = webServiceInfo.getUri() + "attendees";
+					}
+					else{
+						this.uri = webServiceInfo.getUri() + "/attendees";
+					}
+					logger.info("Set attendee-service uri: {}", this.uri );
 				}
 			}
 		} catch (CloudException e) {

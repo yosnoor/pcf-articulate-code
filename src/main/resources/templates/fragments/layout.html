@@ -131,25 +131,25 @@ ul {
 		<div id="collapseZero" class="panel-collapse collapse in">
 			<div class="panel-body">
 				<p>
-					<b>Application Name:</b> <span  th:text="*{applicationName}?: 'running locally'"></span>
+					<b>Application Name:</b>&nbsp;<span  th:text="*{applicationName}?: 'running locally'"></span>
 				</p>
 				<p>
-					<b>Instance index:</b> <span id="instanceIndex" th:text="${instanceIndex}"></span>
+					<b>Instance index:</b>&nbsp;<span id="instanceIndex" th:text="${instanceIndex}"></span>
 				</p>
 				<p>
-					<b>Container address:</b> <span  id="containerAddr" th:text="${containerAddr}"></span>
+					<b>Container address:</b>&nbsp;<span  id="containerAddr" th:text="${containerAddr}"></span>
 				</p>
 				<p>
-					<b>Cell address:</b> <span id="instanceAddress" th:text="${instanceAddr}"></span>
+					<b>Cell address:</b>&nbsp;<span id="instanceAddress" th:text="${instanceAddr}"></span>
 				</p>
 				<p>
-					<b>Java Version:</b> <span id="javaVersion" th:text="${javaVersion}"></span>
+					<b>Java Version:</b>&nbsp;<span id="javaVersion" th:text="${javaVersion}"></span>
 				</p>
 				<hr></hr>
 				<h4>Services</h4>
 				<span th:if="${applicationServices.isEmpty()}">None</span>
 				<p th:each="instance : ${applicationServices}">
-					<span th:text="${instance.key}"></span> <br />
+					<b><span th:text="${instance.key}"></span></b>:&nbsp;<span th:text="${instance.value}"></span><br />
 				</p>
 
 				<div id="resultsBlock-health"></div>

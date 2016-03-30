@@ -1,6 +1,7 @@
 package io.pivotal.enablement.articulate.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class EnvironmentHelper {
 
-	private static final Logger logger = LoggerFactory.getLogger(EnvironmentHelper.class);
-
+	private static final Logger logger = LoggerFactory
+			.getLogger(EnvironmentHelper.class);
 
 	/**
 	 * addAppEnv - Retrieve information about the application
@@ -24,19 +25,20 @@ public class EnvironmentHelper {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> addAppEnv(HttpServletRequest request) throws Exception {
+	public Map<String, Object> addAppEnv(HttpServletRequest request)
+			throws Exception {
 
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 
-		if(System.getenv("PORT")== null){
+		if (System.getenv("PORT") == null) {
 			modelMap.put("containerAddr", "localhost");
+		} else {
+			modelMap.put("containerAddr", request.getLocalAddr() + ":"
+					+ request.getLocalPort());
 		}
-		else{
-			modelMap.put("containerAddr", request.getLocalAddr() + ":" + request.getLocalPort());
-		}
-		
-		String instanceIndex = getVcapApplicationMap().getOrDefault("instance_index", "no index environment variable")
-				.toString();
+
+		String instanceIndex = getVcapApplicationMap().getOrDefault(
+				"instance_index", "no index environment variable").toString();
 		modelMap.put("instanceIndex", instanceIndex);
 
 		String instanceAddr = System.getenv("CF_INSTANCE_ADDR");
@@ -45,49 +47,65 @@ public class EnvironmentHelper {
 		}
 		modelMap.put("instanceAddr", instanceAddr);
 
-		String applicationName = (String) getVcapApplicationMap().getOrDefault("application_name",
-				"no name environment variable");
+		String applicationName = (String) getVcapApplicationMap().getOrDefault(
+				"application_name", "no name environment variable");
 		modelMap.put("applicationName", applicationName);
 
-		@SuppressWarnings("rawtypes")
-		Map services = getVcapServicesMap();
+		Map<String, ?> services = getVcapServicesMap();
+		services = parseServices(services);
 		modelMap.put("applicationServices", services);
-		
-
 		String javaVersion = System.getProperty("java.version");
 		logger.debug("Java Version (unfiltered): {}", javaVersion);
-		
+
 		int pos = javaVersion.indexOf("-");
-		if(pos > -1){
+		if (pos > -1) {
 			javaVersion = javaVersion.substring(0, pos);
 		}
 		logger.debug("Java Version (filtered): {}", javaVersion);
-		
-		modelMap.put("javaVersion",javaVersion);
+
+		modelMap.put("javaVersion", javaVersion);
 		return modelMap;
 	}
 
-	///////////////////////////////////////
+    @SuppressWarnings("rawtypes")
+	private Map<String,Object> parseServices(Map<String, ?> services) {
+		Map<String,Object> servicesMap  = new HashMap<String,Object>();
+		for (Map.Entry<String,?> entry : services.entrySet()) {
+			List list = (List)entry.getValue();
+		    
+		    for (Object object : list) {
+				logger.debug("list: {}", object.getClass());
+		    	Map map = (Map)object;
+		    	
+		    	servicesMap.put(entry.getKey(), map.get("name"));
+			}
+		}
+		return servicesMap;
+		
+	}
+
+	// /////////////////////////////////////
 	// Helper Methods
-	///////////////////////////////////////
+	// /////////////////////////////////////
+
 
 	@SuppressWarnings("rawtypes")
 	public Map getVcapApplicationMap() throws Exception {
 		return getEnvMap("VCAP_APPLICATION");
 	}
 
-	@SuppressWarnings("rawtypes")
-	private Map getVcapServicesMap() throws Exception {
+	private Map<String, ?> getVcapServicesMap() throws Exception {
 		return getEnvMap("VCAP_SERVICES");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Map getEnvMap(String vcap) throws Exception {
+	private Map<String, ?> getEnvMap(String vcap) throws Exception {
 		String vcapEnv = System.getenv(vcap);
 		ObjectMapper mapper = new ObjectMapper();
 
 		if (vcapEnv != null) {
+			@SuppressWarnings("unchecked")
 			Map<String, ?> vcapMap = mapper.readValue(vcapEnv, Map.class);
+
 			return vcapMap;
 		}
 
