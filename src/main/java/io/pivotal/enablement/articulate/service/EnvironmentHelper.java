@@ -1,8 +1,11 @@
 package io.pivotal.enablement.articulate.service;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -69,15 +72,15 @@ public class EnvironmentHelper {
 
     @SuppressWarnings("rawtypes")
 	private Map<String,Object> parseServices(Map<String, ?> services) {
-		Map<String,Object> servicesMap  = new HashMap<String,Object>();
+		Map<String,Object> servicesMap  = Collections.synchronizedMap(new LinkedHashMap<String,Object>());
 		for (Map.Entry<String,?> entry : services.entrySet()) {
 			List list = (List)entry.getValue();
 		    
 		    for (Object object : list) {
 				logger.debug("list: {}", object.getClass());
 		    	Map map = (Map)object;
-		    	
-		    	servicesMap.put(entry.getKey(), map.get("name"));
+		    	//weird delimiter and UUID is to deal with multiple services of the same type
+			    servicesMap.put(entry.getKey() + "~~~" + UUID.randomUUID().toString(), map.get("name"));		    		
 			}
 		}
 		return servicesMap;

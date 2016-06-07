@@ -149,7 +149,7 @@ ul {
 				<h4>Services</h4>
 				<span th:if="${applicationServices.isEmpty()}">None</span>
 				<p th:each="instance : ${applicationServices}">
-					<b><span th:text="${instance.key}"></span></b>:&nbsp;<span th:text="${instance.value}"></span><br />
+					<b><span th:text="${#strings.substringBefore(instance.key,'~~~')}"></span></b>:&nbsp;<span th:text="${instance.value}"></span><br />
 				</p>
 
 				<div id="resultsBlock-health"></div>
