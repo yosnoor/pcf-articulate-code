@@ -105,7 +105,7 @@ public class AttendeeService {
 			}
 			return attendeeList;
 		}
-		catch (Throwable e){
+		catch (Exception e){
 			logger.error("Failed to retrieve attendees.  Returning empty list.", e);
 			throw e;
 		}
