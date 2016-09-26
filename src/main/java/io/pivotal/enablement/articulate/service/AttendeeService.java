@@ -40,6 +40,7 @@ public class AttendeeService {
 			.getLogger(AttendeeService.class);
 
 	private static final String DEFAULT_ATTENDEE_SERVICE_URI = "http://localhost:8181/attendees";
+	
 	@Value("${articulate.attendee-service.uri:" + DEFAULT_ATTENDEE_SERVICE_URI +"}")
 	private String uri;
 	
@@ -55,16 +56,14 @@ public class AttendeeService {
 			for (ServiceInfo serviceInfo : serviceInfos) {
 				if (serviceInfo instanceof WebServiceInfo) {
 					WebServiceInfo webServiceInfo = (WebServiceInfo) serviceInfo;
-					if (webServiceInfo.getUri().endsWith("/")){
-						this.uri = webServiceInfo.getUri() + "attendees";
-					}
-					else{
-						this.uri = webServiceInfo.getUri() + "/attendees";
-					}
+					this.uri = webServiceInfo.getUri();
 				}
 			}
 		} catch (CloudException e) {
 			logger.debug("Failed to read cloud environment.  Ignore if running locally.");
+		}
+		if(!this.uri.contains("/attendees")){
+			throw new RuntimeException("The attendee-service uri must have '/attendees' in the path.  For example: " + DEFAULT_ATTENDEE_SERVICE_URI);
 		}
 		if(this.uri.equals(DEFAULT_ATTENDEE_SERVICE_URI)){
 			logger.info("Defaulting attendee-service uri to: {}", DEFAULT_ATTENDEE_SERVICE_URI);
