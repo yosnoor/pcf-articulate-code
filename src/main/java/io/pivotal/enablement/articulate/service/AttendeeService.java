@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
@@ -38,8 +39,12 @@ public class AttendeeService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(AttendeeService.class);
 
-	@Value("${articulate.attendee-service.uri:http://localhost:8181/attendees}")
+	private static final String DEFAULT_ATTENDEE_SERVICE_URI = "http://localhost:8181/attendees";
+	@Value("${articulate.attendee-service.uri:" + DEFAULT_ATTENDEE_SERVICE_URI +"}")
 	private String uri;
+	
+	@Autowired
+	private EnvironmentHelper environmentHelper;
 	
 	@PostConstruct
 	public void init() {
@@ -56,14 +61,21 @@ public class AttendeeService {
 					else{
 						this.uri = webServiceInfo.getUri() + "/attendees";
 					}
-					logger.info("Set attendee-service uri: {}", this.uri );
 				}
 			}
 		} catch (CloudException e) {
 			logger.debug("Failed to read cloud environment.  Ignore if running locally.");
 		}
+		if(this.uri.equals(DEFAULT_ATTENDEE_SERVICE_URI)){
+			logger.info("Defaulting attendee-service uri to: {}", DEFAULT_ATTENDEE_SERVICE_URI);
+		}
+		else {
+			logger.info("Set attendee-service uri to: {}", this.uri );
+		}
 	}
 
+
+	@HystrixCommand
 	public void add(Attendee attendee) {
 
 		RestTemplate restTemplate = restTemplate();
@@ -75,23 +87,29 @@ public class AttendeeService {
 
 	@HystrixCommand(fallbackMethod="defaultList")
 	public List<Attendee> getAttendees() {
-
-		RestTemplate restTemplate = restTemplate();
-		ResponseEntity<PagedResources<Attendee>> responseEntity = restTemplate
-				.exchange(
-						uri,
-						HttpMethod.GET,
-						getHttpEntity(),
-						new ParameterizedTypeReference<PagedResources<Attendee>>() {
-						});
-		PagedResources<Attendee> pagedResources = responseEntity.getBody();
-		logger.debug("PagedResources<Attendee>: {}", pagedResources);
-
-		List<Attendee> attendeeList = new ArrayList<Attendee>();
-		for (Attendee attendee : pagedResources) {
-			attendeeList.add(attendee);
+		try {
+			RestTemplate restTemplate = restTemplate();
+			ResponseEntity<PagedResources<Attendee>> responseEntity = restTemplate
+					.exchange(
+							uri,
+							HttpMethod.GET,
+							getHttpEntity(),
+							new ParameterizedTypeReference<PagedResources<Attendee>>() {
+							});
+			PagedResources<Attendee> pagedResources = responseEntity.getBody();
+			logger.debug("PagedResources<Attendee>: {}", pagedResources);
+	
+			List<Attendee> attendeeList = new ArrayList<Attendee>();
+			for (Attendee attendee : pagedResources) {
+				attendeeList.add(attendee);
+			}
+			return attendeeList;
 		}
-		return attendeeList;
+		catch (Throwable e){
+			logger.error("Failed to retrieve attendees.  Returning empty list.", e);
+			throw e;
+		}
+		
 	}
 	
 	@SuppressWarnings("unused")

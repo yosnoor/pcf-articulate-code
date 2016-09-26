@@ -90,6 +90,7 @@ public class ArticulateController {
 		}
 		catch(Exception e){
 			addFailed = true;
+			logger.error("Failed to add attendee.", e);
 		}
 		model.addAttribute("addFailed", addFailed);
 		if(addFailed){
