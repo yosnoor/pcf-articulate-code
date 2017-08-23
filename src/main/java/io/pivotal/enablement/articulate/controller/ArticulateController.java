@@ -104,7 +104,7 @@ public class ArticulateController {
 		model.addAttribute("attendees", attendeeService.getAttendees());
 
 		addAppEnv(request, model);
-		return "services";
+		return "redirect:services";
 	}
 
 
